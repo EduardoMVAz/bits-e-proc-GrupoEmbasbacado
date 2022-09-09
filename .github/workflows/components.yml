@@ -28,6 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       # ------------- Tests ----------------
-      - name: test mux8way
+      - name: test barrelShifter
         run: |
-          pytest hw/test_components.py -k test_mux8way
+          pytest hw/test_components.py -k barrelShifter
