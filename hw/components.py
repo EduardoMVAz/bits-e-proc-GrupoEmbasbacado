@@ -11,11 +11,10 @@ def and16(a, b, q):
     q: 16 bits
     and bit a bit entre a e b
     """
-    foo = Signal(0)
 
     @always_comb
     def comb():
-        q.next = foo
+        q.next = q.next = (a and b)
 
     return comb
 
@@ -166,11 +165,9 @@ def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
     - Lembre que a saída que não está ativada é 0
     """
 
-    foo = Signal(intbv(0))
-
     @always_comb
     def comb():
-        q0.next = foo
+        q0.next,q1.next,q2.next,q3.next,q4.next,q5.next,q6.next,q7.next = a if sel == 0 else 0,a if sel == 1 else 0,a if sel == 2 else 0, a if sel == 3 else 0, a if sel == 4 else 0, a if sel == 5 else 0, a if sel == 6 else 0, a if sel == 7 else 0
 
     return comb
 
