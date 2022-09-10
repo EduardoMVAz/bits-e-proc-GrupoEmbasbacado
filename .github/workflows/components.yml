@@ -30,4 +30,4 @@ jobs:
       # ------------- Tests ----------------
       - name: test barrelShifter
         run: |
-          pytest hw/test_components.py -k barrelShifter
+          pytest hw/test_components.py -k and16
