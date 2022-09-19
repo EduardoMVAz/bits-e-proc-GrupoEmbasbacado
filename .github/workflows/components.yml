@@ -28,6 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       # ------------- Tests ----------------
-      - name: test comparador
+      - name: test ula
         run: |
-          pytest hw/test_ula.py -k test_comparador
+          pytest hw/test_ula.py -k test_ula
