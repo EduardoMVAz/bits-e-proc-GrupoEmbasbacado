@@ -32,11 +32,15 @@ def pc(increment, load, i, output, width, clk, rst):
 @block
 def registerN(i, load, output, width, clk, rst):
     binaryDigitList = [None for n in range(width)]
-    outputs = [Signal(bool(0)) for n in range(width)]
+    output_n = [Signal(bool(0)) for n in range(width)]
+
+    for y in range(width):
+        binaryDigitList[i] = binaryDigit(i[y],load,output_n[i],clr,rst)
 
     @always_comb
     def comb():
-        pass
+        for n in range(width):
+            output.next[n] = output_n[n]
 
     return instances()
 
@@ -46,9 +50,13 @@ def register8(i, load, output, clk, rst):
     binaryDigitList = [None for n in range(8)]
     output_n = [Signal(bool(0)) for n in range(8)]
 
+    for y in range(8):
+        binaryDigitList[i] = binaryDigit(i[y],load,output_n[i],clr,rst)
+
     @always_comb
     def comb():
-        pass
+        for i in range(8):
+            output.next[i] = output_n[i]
 
     return instances()
 
@@ -56,10 +64,12 @@ def register8(i, load, output, clk, rst):
 @block
 def binaryDigit(i, load, output, clk, rst):
     q, d, clear, presset = [Signal(bool(0)) for i in range(4)]
-
+    mux = mux2way(d,q,i,load)
+    dff = dff(q,d,clear,presset,clk,rst)
     @always_comb
     def comb():
-        pass
+        output.next = q
+        
 
     return instances()
 
