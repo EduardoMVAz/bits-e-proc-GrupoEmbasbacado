@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from myhdl import *
+from .components import mux2way
 
 
 @block
@@ -35,7 +36,7 @@ def registerN(i, load, output, width, clk, rst):
     output_n = [Signal(bool(0)) for n in range(width)]
 
     for y in range(width):
-        binaryDigitList[i] = binaryDigit(i[y],load,output_n[i],clr,rst)
+        binaryDigitList[i] = binaryDigit(i[y],load,output_n[i],clk,rst)
 
     @always_comb
     def comb():
@@ -51,7 +52,7 @@ def register8(i, load, output, clk, rst):
     output_n = [Signal(bool(0)) for n in range(8)]
 
     for y in range(8):
-        binaryDigitList[i] = binaryDigit(i[y],load,output_n[i],clr,rst)
+        binaryDigitList[i] = binaryDigit(i[y],load,output_n[i],clk,rst)
 
     @always_comb
     def comb():
@@ -64,11 +65,19 @@ def register8(i, load, output, clk, rst):
 @block
 def binaryDigit(i, load, output, clk, rst):
     q, d, clear, presset = [Signal(bool(0)) for i in range(4)]
-    mux = mux2way(d,q,i,load)
-    dff = dff(q,d,clear,presset,clk,rst)
+    
+    # mux = mux2way(d,q,i,load)
+    # dff = dff(q,d,clear,presset,clk,rst)
+    # @always_comb
+    # def comb():
+    #     output.next = q
+
+    mux = mux2way(q, d, i, load)
+    theDff = dff(d, q, clear, presset, clk, rst)
+
     @always_comb
     def comb():
-        output.next = q
+        output.next = d
         
 
     return instances()
