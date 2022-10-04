@@ -22,10 +22,20 @@ def pc(increment, load, i, output, width, clk, rst):
     regIn = Signal(modbv(0)[width:])
     regOut = Signal(modbv(0)[width:])
     regLoad = Signal(bool(0))
+    incOut = Signal(modbv(0)[width:])
+    mux1_out,mux2_out = [Signal(modbv(0)[width:]) for _ in range(2)]
+    
+    
+    incre_1 = inc(regOut,incOut)
+    mx1 = mux2way(mux1_out, False, incOut, increment)
+    mx2 = mux2way(mux2_out, mux1_out, i, load)
+    mx3 = mux2way(regIn, mux2_out, False, rst)
+    reg1 = registerN(regIn,regLoad,regOut,width,clk,rst)
 
     @always_comb
     def comb():
-        pass
+        regLoad.next = rst or increment or load
+        output.next = regOut
 
     return instances()
 
