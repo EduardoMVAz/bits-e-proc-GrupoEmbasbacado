@@ -28,6 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       # ------------- Tests ----------------
-      - name: test ram
+      - name: test mult
         run: |
-          pytest hw/test_seq.py -k test_ram
+          pytest sw/nasm/test_nasm.py -k test_mult
