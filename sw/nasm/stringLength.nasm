@@ -25,3 +25,36 @@
 ;  RAM[13] = `z`
 ;  RAM[14] = `?`
 ;  RAM[15] = NULL = 0x0000
+
+PREPARANDO:
+    leaw $0, %A
+    movw $0, (%A)
+
+    leaw $8, %A
+    movw %A, %D
+    leaw $1, %A
+    movw %D, (%A)
+
+WHILE:
+    leaw $1, %A
+    movw (%A), %D
+    movw %D, %A
+    movw (%A), %D
+    leaw $END, %A
+    je
+    nop
+
+    leaw $1, %A
+    movw (%A), %D
+    addw $1, %D, %D
+    leaw $1, %A
+    movw %D, (%A)
+    leaw $0, %A
+    movw (%A), %D
+    addw $1, %D, %D
+    movw %D, (%A)
+    
+    leaw $WHILE, %A
+    jmp
+    nop
+END:
