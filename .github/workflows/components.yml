@@ -30,4 +30,4 @@ jobs:
       # ------------- Tests ----------------
       - name: test mult
         run: |
-          pytest test_nasm.py -k test_mult
+          pytest sw/nasm/test_nasm.py -k test_mult
