@@ -30,4 +30,4 @@ jobs:
       # ------------- Tests ----------------
       - name: test and16
         run: |
-          pytest hw/test_seq.py -k test_binaryDigit
+          pytest hw/test_componentes.py -k test_mux2way
