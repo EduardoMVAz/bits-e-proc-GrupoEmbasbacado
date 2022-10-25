@@ -19,3 +19,48 @@
 ; RAM[7]:  1  | RAM[7]:  1 |
 ; RAM[8]:  4  | RAM[8]:  4 -
 ; ------------------------------------
+
+PREPARANDO:
+    leaw $2, %A
+    movw $0, (%A)
+    leaw $4, %A
+    movw (%A), %D
+    sumw %D, %A, %D
+    leaw $3, %A
+    movw %D, (%A)
+
+
+SOMA:
+    leaw $3, %A
+    movw (%A), %D
+    movw %D, %A
+    movw (%A), %D
+    leaw $1, %A
+    addw (%A), %D, %D
+    movw %D, (%A)
+    leaw $3, %A
+    movw (%A), %D
+    leaw $1, %A
+    subw (%D), %A, %D
+    leaw $3, %A
+    movw %D, (%A)
+    leaw $SOMA, %A
+    jne
+    nop
+
+
+DIV:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
