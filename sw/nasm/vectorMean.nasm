@@ -49,16 +49,32 @@ SOMA:
     nop
 
 
-ANTESDIV:
-    leaw $4, %A
+
+WHILE:
+    leaw $1, %A
     movw (%A), %D
-    leaw $3, %A
+
+    leaw $END, %A 
+    jle
+    nop
+
+    leaw $4, %A 
+    movw (%A), %D 
+    leaw $1, %A 
+    subw (%A), %D, %D  
+    movw %D, (%A) 
+
+    leaw $END, %A 
+    jl
+    nop
+
+    leaw $0, %A
+    addw $1, (%A), %D 
     movw %D, (%A)
 
+    leaw $WHILE, %A 
+    jmp
+    nop
 
-DIV:
-    leaw $4, %A
-    movw (%A), %D
-    
 
 
