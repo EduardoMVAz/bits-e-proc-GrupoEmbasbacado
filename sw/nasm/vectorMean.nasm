@@ -45,22 +45,20 @@ SOMA:
     leaw $3, %A
     movw %D, (%A)
     leaw $SOMA, %A
-    jne
+    jge
     nop
 
 
+ANTESDIV:
+    leaw $4, %A
+    movw (%A), %D
+    leaw $3, %A
+    movw %D, (%A)
+
+
 DIV:
-
-
-
-
-
-
-
-
-
-
-
-
+    leaw $4, %A
+    movw (%A), %D
+    
 
 
