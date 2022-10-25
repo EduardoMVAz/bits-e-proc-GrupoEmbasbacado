@@ -30,4 +30,4 @@ jobs:
       # ------------- Tests ----------------
       - name: test and16
         run: |
-          pytest hw/test_components.py -k and16
+          pytest sw/nasm/test_nasm.py -k test_factorial
