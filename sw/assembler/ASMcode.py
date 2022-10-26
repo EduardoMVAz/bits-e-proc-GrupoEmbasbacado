@@ -38,6 +38,17 @@ class Code:
         - return bits: (String de 3 bits) com código em linguagem de máquina para a instrução.
         """
         bits = "000"
+        tabela_jmp = {
+            'jg':'001',
+            'je':'010',
+            'jge': '011',
+            'jl': '100',
+            'jne':'101',
+            'jle':'110',
+            'jmp':'111'
+        }
+        if mnemnonic[0] in tabela_jmp:
+            bits = tabela_jmp[mnemnonic[0]]
         return bits
 
     # DONE

@@ -50,8 +50,14 @@ class Parser:
         @return o tipo da instrução.
         """
 
+
         # analise o self.currentCommand
-        pass
+        if self.currentCommand[0] == 'leaw':
+            return 'A_COMMAND'
+        elif self.currentCommand[0][-1] == ':':
+            return 'L_COMMAND'
+        else:
+            return 'C_COMMAND'
 
 
     # TODO
