@@ -151,3 +151,17 @@ def test_factorial():
     ram = {1: 4}
     tst = {1: math.factorial(ram[0])}
     assert nasm_test("factorial.nasm", ram, tst, 10000)
+
+
+def test_vectorMean():
+    ram = {0:0 , 1:0 , 2:0, 3:0, 4:3, 5:1, 6:1, 7:1}
+    tst = {0:1 , 1:3 , 4:1, 5:1, 6:1, 7:1}
+    assert nasm_test("vectorMean.nasm", ram, tst, 10000)
+
+    ram = {0:0 , 1:0 , 2:0, 3:0, 4:4, 5:4, 6:4, 7:2, 8:2}
+    tst = {0:3 , 1:12 , 2:0, 3:0, 4:4, 5:4, 6:4, 7:2, 8:2}
+    assert nasm_test("vectorMean.nasm", ram, tst, 10000)
+
+    ram = {0:0 , 1:0 , 2:0, 3:0, 4:4, 5:4, 6:4, 7:10, 8:14}
+    tst = {0:8 , 1:32 , 2:0, 3:0, 4:4, 5:4, 6:4, 7:10, 8:14}
+    assert nasm_test("vectorMean.nasm", ram, tst, 10000)

@@ -25,7 +25,7 @@ PREPARANDO:
     movw $0, (%A)
     leaw $4, %A
     movw (%A), %D
-    sumw %D, %A, %D
+    addw %D, %A, %D
     leaw $3, %A
     movw %D, (%A)
 
@@ -38,16 +38,20 @@ SOMA:
     leaw $1, %A
     addw (%A), %D, %D
     movw %D, (%A)
+    movw $1, %D
     leaw $3, %A
-    movw (%A), %D
-    leaw $1, %A
-    subw (%D), %A, %D
+    subw (%A), %D, %D
     leaw $3, %A
     movw %D, (%A)
     leaw $SOMA, %A
     jge
     nop
 
+
+leaw $4, %A
+movw (%A), %D
+leaw $3, %A
+movw %D, (%A) 
 
 
 WHILE:
@@ -58,7 +62,7 @@ WHILE:
     jle
     nop
 
-    leaw $4, %A 
+    leaw $3, %A 
     movw (%A), %D 
     leaw $1, %A 
     subw (%A), %D, %D  
@@ -78,3 +82,4 @@ WHILE:
 
 
 
+END:
