@@ -43,6 +43,8 @@ SOMA:
     subw (%A), %D, %D
     leaw $3, %A
     movw %D, (%A)
+    leaw $4, %A
+    subw (%A), %D, %D
     leaw $SOMA, %A
     jge
     nop
