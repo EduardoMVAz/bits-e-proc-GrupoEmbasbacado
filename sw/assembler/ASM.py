@@ -44,7 +44,8 @@ class ASM:
 
     # TODO
     def generateMachineCode(self):
-        """
+        """  
+        
         Segundo passo para a geração do código de máquina
         Varre o código em busca de instruções do tipo A, C
         gerando a linguagem de máquina a partir do parse das instruções.
