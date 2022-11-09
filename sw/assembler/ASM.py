@@ -1,6 +1,6 @@
-from ASMsymbolTable import SymbolTable
-from ASMcode import Code
-from ASMparser import Parser
+from .ASMsymbolTable import SymbolTable
+from .ASMcode import Code
+from .ASMparser import Parser
 
 
 class ASM:
@@ -13,7 +13,6 @@ class ASM:
         self.parser = Parser(nasm)
         self.code = Code()
         self.hackLineCount = 0
-        self.last_jump = 0
 
     # DONE
     def run(self):
@@ -33,13 +32,20 @@ class ASM:
 
         Dependencia : Parser, SymbolTable
         """
+        self.parser.reset()
         self.hackLineCount = 0
+        numb_of_jumps_no_nop = 0
+        last_command = ['a']
         while self.parser.advanced():
+            if last_command[0][0] == 'j' and self.parser.currentCommand[0] != 'nop':
+                numb_of_jumps_no_nop += 1
+
             if self.parser.commandType() == 'L_COMMAND':
                 if not self.symbolTable.contains(self.parser.label()):
-                    self.symbolTable.addEntry(self.parser.label(), self.hackLineCount)
+                    self.symbolTable.addEntry(self.parser.label(), self.hackLineCount + numb_of_jumps_no_nop)
             else:
                 self.hackLineCount += 1
+            last_command = self.parser.currentCommand
 
 
     def generateMachineCode(self):
@@ -57,13 +63,6 @@ class ASM:
         while self.parser.advanced():
             cmnd = self.parser.currentCommand[0]
 
-            if self.last_jump:
-                if cmnd != 'nop':
-                    print(f"--> ERRO, JUMP NÃO SEGUIDO DE NOP")
-                    raise ValueError('Jump não seguido de nop')
-                else:
-                    self.last_jump = 0
-
             if self.parser.commandType() == "A_COMMAND":
                 symbol = self.parser.symbol()
                 try:
@@ -74,9 +73,6 @@ class ASM:
                 bin = '00' + self.code.toBinary(symbol)
                 string = str(bin + "\n")
                 allStrings += string
-
-            elif cmnd == 'nop':
-                allStrings += '100001010100000000\n'
                 
             elif self.parser.commandType() == "L_COMMAND":
                 pass # for tags
@@ -85,8 +81,11 @@ class ASM:
                 bin = '100000011000000' + self.code.jump(self.parser.currentCommand)
                 string = str(bin + "\n")
                 allStrings += string
-                self.last_jump = 1
+                allStrings += '100001010100000000\n'
             
+            elif cmnd == 'nop':
+                allStrings += '100001010100000000\n'
+
             elif self.parser.commandType() == "C_COMMAND":
                 bin = "1000" + self.code.comp(self.parser.command()) + '0' + self.code.dest(self.parser.currentCommand) + '000'
                 string = str(bin + "\n")
@@ -94,14 +93,7 @@ class ASM:
 
             else: 
                 allStrings += f'{self.parser.command()} <------------- erro \n'
-                    
+        
+        allStrings = allStrings.replace('100001010100000000\n100001010100000000\n', '100001010100000000\n')
         self.hack.write(allStrings)
-            
-NASM_IN = 'test_assets/factorial.nasm'
-HACK_OUT = 'test_assets/factorial_out.hack'
-HACK_REF = 'test_assets/factorial.hack'
-fNasm = open(NASM_IN, 'r')
-fHack = open(HACK_OUT, 'w')
-asm = ASM(fNasm, fHack)
-asm.run()
-fHack.close()
+
