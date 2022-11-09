@@ -59,9 +59,10 @@ class ASM:
         allStrings = ''
         string = ''
         self.parser.reset()
+        last_command = ['a']
 
         while self.parser.advanced():
-            cmnd = self.parser.currentCommand[0]
+            cmnd = self.parser.currentCommand[0]            
 
             if self.parser.commandType() == "A_COMMAND":
                 symbol = self.parser.symbol()
@@ -69,31 +70,32 @@ class ASM:
                     symbol = int(symbol)
                 except:
                     symbol = self.symbolTable.getAddress(symbol)
-                
                 bin = '00' + self.code.toBinary(symbol)
                 string = str(bin + "\n")
                 allStrings += string
-                
             elif self.parser.commandType() == "L_COMMAND":
-                pass # for tags
+                pass
 
             elif cmnd[0] == 'j':
                 bin = '100000011000000' + self.code.jump(self.parser.currentCommand)
                 string = str(bin + "\n")
                 allStrings += string
                 allStrings += '100001010100000000\n'
-            
-            elif cmnd == 'nop':
+
+            elif cmnd == 'nop' and last_command[0] != 'j':
                 allStrings += '100001010100000000\n'
+            
+            elif cmnd == 'nop' and last_command[0] == 'j':
+                pass
 
             elif self.parser.commandType() == "C_COMMAND":
                 bin = "1000" + self.code.comp(self.parser.command()) + '0' + self.code.dest(self.parser.currentCommand) + '000'
                 string = str(bin + "\n")
                 allStrings += string
-
             else: 
                 allStrings += f'{self.parser.command()} <------------- erro \n'
+
+            last_command = cmnd
         
-        allStrings = allStrings.replace('100001010100000000\n100001010100000000\n', '100001010100000000\n')
         self.hack.write(allStrings)
 
