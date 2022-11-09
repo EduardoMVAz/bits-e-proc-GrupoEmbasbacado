@@ -29,18 +29,7 @@ jobs:
 
       #testes passando
       ------------- Tests ----------------
-      - name: test ASMsymbolTable
+      - name: test writeArithmetic
         run: |
-          pytest sw/assembler/pytest test_symboltable
+          pytest sw/vmtranslator test_code_arithmetic
 
-      - name: test ASMparser
-        run: |
-          pytest sw/assembler/pytest test_asmparser
-      
-      - name: test ASMcode
-        run: |
-          pytest sw/assembler/pytest test_asmcode
-
-      - name: test ASM
-        run: |
-          pytest sw/assembler/pytest test_asm

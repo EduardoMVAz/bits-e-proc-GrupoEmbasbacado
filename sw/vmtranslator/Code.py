@@ -92,26 +92,238 @@ class Code:
         commands.append(self.writeHead(command))
 
         if command == "add":
-            pass # TODO
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('addw (%A), %D, %D')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
         elif command == "sub":
-            pass # TODO
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('subw (%A), %D, %D')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
         elif command == "or":
-            pass # TODO
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('orw (%A), %D, %D')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
         elif command == "and":
-            pass # TODO
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('andw (%A), %D, %D')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
         elif command == "not":
-            pass # TODO
+            
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('notw %D')
+            commands.append('movw %D, (%A)')
+
         elif command == "neg":
-            pass # TODO
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('notw %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
         elif command == "eq":
             # dica, usar self.getUniqLabel() para obter um label único
-            pass # TODO
+
+            label_igual_zero = self.getUniqLabel()
+            self.updateUniqLabel()
+            label_diferente_zero = self.getUniqLabel()
+            self.updateUniqLabel()
+            label_end = self.getUniqLabel()
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('subw (%A), %D, %D')
+            commands.append(f'leaw ${label_igual_zero}, %A')
+            commands.append('je')
+            commands.append('nop')
+            commands.append(f'leaw ${label_diferente_zero}, %A')
+            commands.append('jmp')
+            commands.append('nop')
+
+            commands.append(f'{label_igual_zero}:')
+            commands.append('leaw $65535, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('decw %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+            commands.append(f'leaw ${label_end}, %A')
+            commands.append('jmp')
+            commands.append('nop')
+
+            commands.append(f'{label_diferente_zero}:')
+            commands.append('leaw $0, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('decw %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append(f'{label_end}:')
+
         elif command == "gt":
             # dica, usar self.getUniqLabel() para obter um label único
-            pass # TODO
+
+            label_maior = self.getUniqLabel()
+            self.updateUniqLabel()
+            label_outro = self.getUniqLabel()
+            self.updateUniqLabel()
+            label_end = self.getUniqLabel()
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('subw (%A), %D, %D')
+            commands.append(f'leaw ${label_maior}, %A')
+            commands.append('jg')
+            commands.append('nop')
+            commands.append(f'leaw ${label_outro}, %A')
+            commands.append('jmp')
+            commands.append('nop')
+
+            commands.append(f'{label_maior}:')
+            commands.append('leaw $65535, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('decw %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+            commands.append(f'leaw ${label_end}, %A')
+            commands.append('jmp')
+            commands.append('nop')
+
+            commands.append(f'{label_outro}:')
+            commands.append('leaw $0, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('decw %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append(f'{label_end}:')
+            
         elif command == "lt":
             # dica, usar self.getUniqLabel() para obter um label único
-            pass # TODO
+            
+            label_menor = self.getUniqLabel()
+            self.updateUniqLabel()
+            label_outro = self.getUniqLabel()
+            self.updateUniqLabel()
+            label_end = self.getUniqLabel()
+            
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('subw (%A), %D, %D')
+            commands.append(f'leaw ${label_menor}, %A')
+            commands.append('jl')
+            commands.append('nop')
+            commands.append(f'leaw ${label_outro}, %A')
+            commands.append('jmp')
+            commands.append('nop')
+
+            commands.append(f'{label_menor}:')
+            commands.append('leaw $65535, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('decw %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+            commands.append(f'leaw ${label_end}, %A')
+            commands.append('jmp')
+            commands.append('nop')
+
+            commands.append(f'{label_outro}:')
+            commands.append('leaw $0, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('decw %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append(f'{label_end}:')
 
         self.commandsToFile(commands)
 
