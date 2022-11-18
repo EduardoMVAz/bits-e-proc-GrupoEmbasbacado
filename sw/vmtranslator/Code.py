@@ -360,7 +360,17 @@ class Code:
         if segment == "constant":
             # dica: usar index para saber o valor da consante
             # push constant index
-            pass # TODO
+            commands.append(f'leaw ${index}, %A')
+            commands.append('movw %A, %D') #valor
+            commands.append('leaw $SP, %A') #0 em a
+            commands.append('movw (%A), %A') #MOVI O VALOR dentro do sp
+            commands.append('movw %D, (%A)')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+
         elif segment == "local":
             pass # TODO
         elif segment == "argument":
