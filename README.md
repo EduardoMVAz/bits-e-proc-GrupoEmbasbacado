@@ -27,5 +27,5 @@ Grupo: <br>
   # Link do Vídeo - Projeto 3 - Lógica Sequencial <br>
   https://youtu.be/Hs6h9iG8dUY
 
-  #PROJETO G
+  # PROJETO G
   PROPOMOS COM O PROFESSOR E IMPLEMENTAMOS A POSSIBILIDADE DE CARREGAR NUMEROS EM D: CHAMADO COM LEAW $CONSTANTE, %D.
