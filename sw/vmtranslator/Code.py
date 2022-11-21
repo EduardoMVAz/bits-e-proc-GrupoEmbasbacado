@@ -361,9 +361,9 @@ class Code:
             # dica: usar index para saber o valor da consante
             # push constant index
             commands.append(f'leaw ${index}, %A')
-            commands.append('movw %A, %D') #valor
-            commands.append('leaw $SP, %A') #0 em a
-            commands.append('movw (%A), %A') #MOVI O VALOR dentro do sp
+            commands.append('movw %A, %D') 
+            commands.append('leaw $SP, %A') 
+            commands.append('movw (%A), %A') 
             commands.append('movw %D, (%A)')
             commands.append('leaw $SP, %A')
             commands.append('movw (%A), %D')
@@ -372,21 +372,127 @@ class Code:
             commands.append('movw %D, (%A)')
 
         elif segment == "local":
-            pass # TODO
+            commands.append('leaw $LCL, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw (%A), %D') 
+
+            commands.append('leaw $SP, %A') 
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $LCL, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D') ##pq incrementa 2x
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
         elif segment == "argument":
-            pass # TODO
+            commands.append('leaw $ARG, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw (%A), %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $ARG, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('incw %D') ##pq incrementa 2x
+            commands.append('movw %D, (%A)')
         elif segment == "this":
-            pass # TODO
+            commands.append('leaw $THIS, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw (%A), %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $THIS, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('incw %D') ##pq incrementa 2x
+            commands.append('movw %D, (%A)')
         elif segment == "that":
-            pass # TODO
+            commands.append('leaw $THAT, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw (%A), %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $THAT, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('incw %D') ##pq incrementa 2x
+            commands.append('movw %D, (%A)')
+
         elif segment == "argument":
-            pass # TODO
-        elif segment == "static":
-            pass # TODO
+            pass # TODO #DNV????
+
+        elif segment == "static": #N TEM TESTE LOGO N SEI
+            commands.append('leaw $STATIC, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw (%A), %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $STATIC, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('incw %D') ##pq incrementa 2x
+            commands.append('movw %D, (%A)')
+
         elif segment == "temp":
-            pass # TODO
-        elif segment == "pointer":
-            pass # TODO
+            # TODO # MUITA DUVIDA AQUI 
+            pass
+
+        elif segment == "pointer": #resolver o SP 
+            commands.append('leaw $THIS, %A')
+            commands.append('movw (%A), %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $THAT, %A')
+            commands.append('movw (%A), %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %D')
+            commands.append('incw %D')
+            commands.append('movw %D, (%A)')
 
         self.commandsToFile(commands)
 
