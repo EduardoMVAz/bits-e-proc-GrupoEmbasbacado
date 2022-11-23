@@ -323,50 +323,72 @@ class Code:
         commands = []
         commands.append(self.writeHead("call") + " " + funcName + " " + str(numArgs))
 
-        commands.append('leaw $0, %A')
+        label = self.getUniqLabel()
+        self.updateUniqLabel()
+
+        # O fluxo de chamada de função, de forma simplificada é:
+        # Coloca na pilha os argumentos que ser passado para a função
+        # Endereço de retorno
+        commands.append(f'leaw ${label}, %A')
         commands.append('movw %A, %D')
         commands.append('leaw $SP, %A')
         commands.append('movw (%A), %A')
         commands.append('movw %D, (%A)')
 
-        commands.append('WHILE:')
+        # LCL (antes da chamada de função)
+        # SP + 1
+        commands.append('addw %A, $1, %D')
         commands.append('leaw $SP, %A')
-        commands.append('movw (%A), %A')
-        commands.append('movw (%A), %D')
-        commands.append(f'leaw ${numArgs}, %A')
-        commands.append('subw %A, %D, %D')
-        commands.append('movw $END, %A')
-        commands.append('jeq')
-
-        commands.append('leaw $SP, %A')
-        commands.append('movw (%A), %A')
-        commands.append('movw (%A), %D')
-        commands.append('leaw $ARG, %A')
-        commands.append('addw %A, %D, %D')
-        commands.append('leaw $SP, %A')
-        commands.append('movw (%A), %A')
-        commands.append('incw %A')
         commands.append('movw %D, (%A)')
-
+        # LCL
+        commands.append('leaw $LCL, %A')
+        commands.append('movw (%A), %D')
         commands.append('leaw $SP, %A')
-        commands.append('movw (%A), %A')
-        commands.append('movw (%A), %D')
-        commands.append('subw %A, %D, %A')
-        commands.append('movw (%A), %D')
-        commands.append('leaw $ARG, %A')
-        commands.append('movw (%A), %A')
         commands.append('movw (%A), %A')
         commands.append('movw %D, (%A)')
 
+        # ARG (antes da chamada de função)
+        # SP + 1
+        commands.append('addw %A, $1, %D')
+        commands.append('leaw $SP, %A')
+        commands.append('movw %D, (%A)')
+        # ARG
+        commands.append('leaw $ARG, %A')
+        commands.append('movw (%A), %D')
         commands.append('leaw $SP, %A')
         commands.append('movw (%A), %A')
-        commands.append('movw (%A), %D')
-        commands.append('incw %D')
-        commands.append('movw (%A), %D')
-        commands.append('movw $WHILE, %A')
-        commands.append('jmp')
+        commands.append('movw %D, (%A)')
 
-        commands.append('END:')
+        # This (antes da chamada de função)
+        # SP + 1
+        commands.append('addw %A, $1, %D')
+        commands.append('leaw $SP, %A')
+        commands.append('movw %D, (%A)')
+        # THIS
+        commands.append('leaw $THIS, %A')
+        commands.append('movw (%A), %D')
+        commands.append('leaw $SP, %A')
+        commands.append('movw (%A), %A')
+        commands.append('movw %D, (%A)')
+
+        # That (antes da chamada de função)
+        # SP + 1
+        commands.append('addw %A, $1, %D')
+        commands.append('leaw $SP, %A')
+        commands.append('movw %D, (%A)')
+        # THAT
+        commands.append('leaw $THAT, %A')
+        commands.append('movw (%A), %D')
+        commands.append('leaw $SP, %A')
+        commands.append('movw (%A), %A')
+        commands.append('movw %D, (%A)')
+
+        # ENDEREÇO DO PRIMEIRO LOCAL
+        commands.append('addw %A, $1, %D')
+        commands.append('leaw $LCL, %A')
+        commands.append('movw %D, (%A)')
+        
+        commands.append('')
 
         self.commandsToFile(commands)
 
@@ -385,7 +407,11 @@ class Code:
         commands = []
         commands.append(self.writeHead("func") + " " + funcName + " " + str(numLocals))
 
-        # TODO
-        # ...
+        commands.append("leaw $SP, %A")
+        commands.append("movw (%A), %D")
+        commands.append(f"leaw ${numLocals}, %A")
+        commands.append("addw %A, %D, %D")
+        commands.append("leaw $SP, %A")
+        commands.append("movw %D, (%A)")
 
         self.commandsToFile(commands)
