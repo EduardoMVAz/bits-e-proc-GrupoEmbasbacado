@@ -472,7 +472,26 @@ class Code:
             commands.append('movw %D, (%A)')
 
         elif segment == "pointer": #resolver o SP 
-           pass 
+            if index == 0:
+                commands.append('leaw $THIS, %A')
+                commands.append('movw (%A), %D')
+                commands.append('leaw $SP, %A')
+                commands.append('movw (%A), %A')
+                commands.append('movw %D, (%A)')
+                commands.append('incw %A')
+                commands.append('movw %A, %D')
+                commands.append('leaw $SP, %A')
+                commands.append('movw %D, (%A)')
+            elif index == 1:
+                commands.append('leaw $THAT, %A')
+                commands.append('movw (%A), %D')
+                commands.append('leaw $SP, %A')
+                commands.append('movw (%A), %A')
+                commands.append('movw %D, (%A)')
+                commands.append('incw %A')
+                commands.append('movw %A, %D')
+                commands.append('leaw $SP, %A')
+                commands.append('movw %D, (%A)')
 
         self.commandsToFile(commands)
 
