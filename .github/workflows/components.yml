@@ -40,5 +40,9 @@ jobs:
       - name: test writePop
         run: |
           pytest sw/vmtranslator test_code_pop
+
+      - name: test code_goto
+        run: |
+          pytest sw/vmtranslator test_code_goto
         
 
