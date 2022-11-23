@@ -32,4 +32,13 @@ jobs:
       - name: test writeArithmetic
         run: |
           pytest sw/vmtranslator test_code_arithmetic
+        
+      - name: test writePush
+        run: |
+          pytest sw/vmtranslator test_code_push
+      
+      - name: test writePop
+        run: |
+          pytest sw/vmtranslator test_code_pop
+        
 
