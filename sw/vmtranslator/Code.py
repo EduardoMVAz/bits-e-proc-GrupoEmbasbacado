@@ -372,21 +372,19 @@ class Code:
             commands.append('movw %D, (%A)')
 
         elif segment == "local":
+            commands.append(f'leaw ${index}, %A')
+            commands.append('movw %A, %D')
             commands.append('leaw $LCL, %A')
             commands.append('movw (%A), %A')
+            commands.append('addw %A, %D, %A')
             commands.append('movw (%A), %D') 
 
             commands.append('leaw $SP, %A') 
             commands.append('movw (%A), %A')
             commands.append('movw %D, (%A)')
+
             commands.append('leaw $SP, %A')
             commands.append('movw (%A), %D')
-            commands.append('incw %D')
-            commands.append('movw %D, (%A)')
-
-            commands.append('leaw $LCL, %A')
-            commands.append('movw (%A), %D')
-            commands.append('incw %D') ##pq incrementa 2x
             commands.append('incw %D')
             commands.append('movw %D, (%A)')
 
@@ -408,6 +406,7 @@ class Code:
             commands.append('incw %D')
             commands.append('incw %D') ##pq incrementa 2x
             commands.append('movw %D, (%A)')
+            
         elif segment == "this":
             commands.append('leaw $THIS, %A')
             commands.append('movw (%A), %A')
@@ -426,6 +425,7 @@ class Code:
             commands.append('incw %D')
             commands.append('incw %D') ##pq incrementa 2x
             commands.append('movw %D, (%A)')
+            
         elif segment == "that":
             commands.append('leaw $THAT, %A')
             commands.append('movw (%A), %A')
@@ -468,31 +468,22 @@ class Code:
             commands.append('movw %D, (%A)')
 
         elif segment == "temp":
-            # TODO # MUITA DUVIDA AQUI 
-            pass
+            commands.append(f'leaw ${index}, %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $5, %A')
+            commands.append('addw %A, %D, %A')
+            commands.append('movw (%A), %D')
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
 
         elif segment == "pointer": #resolver o SP 
-            commands.append('leaw $THIS, %A')
-            commands.append('movw (%A), %D')
-            commands.append('leaw $SP, %A')
-            commands.append('movw (%A), %A')
-            commands.append('movw %D, (%A)')
-
-            commands.append('leaw $SP, %A')
-            commands.append('movw (%A), %D')
-            commands.append('incw %D')
-            commands.append('movw %D, (%A)')
-
-            commands.append('leaw $THAT, %A')
-            commands.append('movw (%A), %D')
-            commands.append('leaw $SP, %A')
-            commands.append('movw (%A), %A')
-            commands.append('movw %D, (%A)')
-
-            commands.append('leaw $SP, %A')
-            commands.append('movw (%A), %D')
-            commands.append('incw %D')
-            commands.append('movw %D, (%A)')
+           pass 
 
         self.commandsToFile(commands)
 
